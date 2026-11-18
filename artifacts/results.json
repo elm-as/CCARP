@@ -1,0 +1,681 @@
+{
+  "cohort_summary": {
+    "app_raw_rows": 438557,
+    "app_unique_ids": 438510,
+    "app_duplicate_ids": 94,
+    "credit_raw_rows": 1048575,
+    "credit_unique_ids": 45985,
+    "joined_ids": 36457,
+    "joined_credit_rows": 777715,
+    "app_only_ids": 402053,
+    "credit_only_ids": 9528,
+    "t_obs": -12,
+    "min_obs_months": 3,
+    "min_perf_months": 6,
+    "cohort_n": 17220,
+    "positives": 156,
+    "default_rate_pct": 0.906,
+    "obs_prior_bad_count": 402,
+    "duplication_audit": {
+      "n_clients": 17220,
+      "n_unique_groups": 6943,
+      "n_singleton_groups": 3039,
+      "n_multi_id_groups": 3904,
+      "n_clients_in_multi_id_groups": 14181,
+      "pct_clients_in_multi_id_groups": 82.35,
+      "max_cluster_size": 19,
+      "n_positive_multi_id_groups": 81,
+      "mean_within_positive_cluster_default_rate": 0.3831
+    }
+  },
+  "cutoff_grid": [
+    {
+      "t_obs": -24,
+      "perf_horizon_months": 24,
+      "cohort_n": 12731,
+      "retention_pct": 34.92,
+      "positives": 171,
+      "default_rate_pct": 1.343,
+      "obs_prior_bad_count": 277,
+      "n_demo_groups": 5626
+    },
+    {
+      "t_obs": -18,
+      "perf_horizon_months": 18,
+      "cohort_n": 15053,
+      "retention_pct": 41.29,
+      "positives": 160,
+      "default_rate_pct": 1.063,
+      "obs_prior_bad_count": 348,
+      "n_demo_groups": 6276
+    },
+    {
+      "t_obs": -12,
+      "perf_horizon_months": 12,
+      "cohort_n": 17220,
+      "retention_pct": 47.23,
+      "positives": 156,
+      "default_rate_pct": 0.906,
+      "obs_prior_bad_count": 402,
+      "n_demo_groups": 6943
+    },
+    {
+      "t_obs": -6,
+      "perf_horizon_months": 6,
+      "cohort_n": 19339,
+      "retention_pct": 53.05,
+      "positives": 143,
+      "default_rate_pct": 0.739,
+      "obs_prior_bad_count": 459,
+      "n_demo_groups": 7617
+    }
+  ],
+  "ablation_rows": [
+    {
+      "regime_label": "Demo Only + StratifiedKFold",
+      "feature_scope": "Demographics Only",
+      "cv_scheme": "StratifiedKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.657523,
+      "pr_auc": 0.056636,
+      "brier_score": 0.008811,
+      "log_loss_val": 0.049163,
+      "ece_10bin": 0.00061,
+      "ks_statistic": 0.246119
+    },
+    {
+      "regime_label": "Demo Only + StratifiedGroupKFold",
+      "feature_scope": "Demographics Only",
+      "cv_scheme": "StratifiedGroupKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.571663,
+      "pr_auc": 0.011347,
+      "brier_score": 0.009092,
+      "log_loss_val": 0.053349,
+      "ece_10bin": 0.001203,
+      "ks_statistic": 0.146701
+    },
+    {
+      "regime_label": "Leak-Free + StratifiedKFold",
+      "feature_scope": "Demo + Obs <= -12",
+      "cv_scheme": "StratifiedKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.928447,
+      "pr_auc": 0.470919,
+      "brier_score": 0.006095,
+      "log_loss_val": 0.029078,
+      "ece_10bin": 0.000978,
+      "ks_statistic": 0.69742
+    },
+    {
+      "regime_label": "Leak-Free + StratifiedGroupKFold",
+      "feature_scope": "Demo + Obs <= -12",
+      "cv_scheme": "StratifiedGroupKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.926653,
+      "pr_auc": 0.408096,
+      "brier_score": 0.006479,
+      "log_loss_val": 0.030946,
+      "ece_10bin": 0.001587,
+      "ks_statistic": 0.678392
+    },
+    {
+      "regime_label": "Leak-Free + GroupKFold",
+      "feature_scope": "Demo + Obs <= -12",
+      "cv_scheme": "GroupKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.918784,
+      "pr_auc": 0.42505,
+      "brier_score": 0.006458,
+      "log_loss_val": 0.031295,
+      "ece_10bin": 0.001419,
+      "ks_statistic": 0.648265
+    },
+    {
+      "regime_label": "Naive Full-History + StratifiedGroupKFold",
+      "feature_scope": "Demo + All Months [-60, 0]",
+      "cv_scheme": "StratifiedGroupKFold(5)",
+      "n_samples": 17220,
+      "n_positives": 156,
+      "roc_auc": 0.998828,
+      "pr_auc": 0.897569,
+      "brier_score": 0.002475,
+      "log_loss_val": 0.008262,
+      "ece_10bin": 0.00128,
+      "ks_statistic": 0.985092
+    }
+  ],
+  "model_metrics": [
+    {
+      "model_name": "logistic_regression",
+      "calibration": "raw",
+      "roc_auc": 0.920327,
+      "pr_auc": 0.37831,
+      "brier_score": 0.006601,
+      "log_loss_val": 0.03171,
+      "ece_10bin": 0.001236,
+      "ks_statistic": 0.679722
+    },
+    {
+      "model_name": "logistic_regression",
+      "calibration": "platt",
+      "roc_auc": 0.919762,
+      "pr_auc": 0.379604,
+      "brier_score": 0.006639,
+      "log_loss_val": 0.031699,
+      "ece_10bin": 0.001386,
+      "ks_statistic": 0.675245
+    },
+    {
+      "model_name": "logistic_regression",
+      "calibration": "isotonic",
+      "roc_auc": 0.913019,
+      "pr_auc": 0.371599,
+      "brier_score": 0.006616,
+      "log_loss_val": 0.033017,
+      "ece_10bin": 0.000597,
+      "ks_statistic": 0.66609
+    },
+    {
+      "model_name": "lightgbm",
+      "calibration": "raw",
+      "roc_auc": 0.926653,
+      "pr_auc": 0.408096,
+      "brier_score": 0.006479,
+      "log_loss_val": 0.030946,
+      "ece_10bin": 0.001587,
+      "ks_statistic": 0.678392
+    },
+    {
+      "model_name": "lightgbm",
+      "calibration": "platt",
+      "roc_auc": 0.926155,
+      "pr_auc": 0.405384,
+      "brier_score": 0.006509,
+      "log_loss_val": 0.030904,
+      "ece_10bin": 0.000495,
+      "ks_statistic": 0.678
+    },
+    {
+      "model_name": "lightgbm",
+      "calibration": "isotonic",
+      "roc_auc": 0.91946,
+      "pr_auc": 0.401087,
+      "brier_score": 0.006511,
+      "log_loss_val": 0.032402,
+      "ece_10bin": 0.000876,
+      "ks_statistic": 0.664183
+    },
+    {
+      "model_name": "xgboost",
+      "calibration": "raw",
+      "roc_auc": 0.927462,
+      "pr_auc": 0.410319,
+      "brier_score": 0.006593,
+      "log_loss_val": 0.030886,
+      "ece_10bin": 0.000642,
+      "ks_statistic": 0.681601
+    },
+    {
+      "model_name": "xgboost",
+      "calibration": "platt",
+      "roc_auc": 0.92714,
+      "pr_auc": 0.406746,
+      "brier_score": 0.006601,
+      "log_loss_val": 0.030906,
+      "ece_10bin": 0.00072,
+      "ks_statistic": 0.67877
+    },
+    {
+      "model_name": "xgboost",
+      "calibration": "isotonic",
+      "roc_auc": 0.922406,
+      "pr_auc": 0.376279,
+      "brier_score": 0.00672,
+      "log_loss_val": 0.034844,
+      "ece_10bin": 0.001066,
+      "ks_statistic": 0.680871
+    },
+    {
+      "model_name": "catboost",
+      "calibration": "raw",
+      "roc_auc": 0.92985,
+      "pr_auc": 0.44068,
+      "brier_score": 0.006309,
+      "log_loss_val": 0.029892,
+      "ece_10bin": 0.001382,
+      "ks_statistic": 0.676255
+    },
+    {
+      "model_name": "catboost",
+      "calibration": "platt",
+      "roc_auc": 0.929301,
+      "pr_auc": 0.43996,
+      "brier_score": 0.006323,
+      "log_loss_val": 0.029922,
+      "ece_10bin": 0.001088,
+      "ks_statistic": 0.671409
+    },
+    {
+      "model_name": "catboost",
+      "calibration": "isotonic",
+      "roc_auc": 0.928194,
+      "pr_auc": 0.427147,
+      "brier_score": 0.006327,
+      "log_loss_val": 0.03041,
+      "ece_10bin": 0.000991,
+      "ks_statistic": 0.668235
+    }
+  ],
+  "reliability_curves": {
+    "raw": {
+      "mean_predicted_prob": [
+        8.1e-05,
+        0.000113,
+        0.000148,
+        0.000225,
+        0.000641,
+        0.002051,
+        0.003785,
+        0.006618,
+        0.009092,
+        0.062334
+      ],
+      "empirical_default_rate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.004065,
+        0.002323,
+        0.007549,
+        0.008711,
+        0.067944
+      ]
+    },
+    "platt": {
+      "mean_predicted_prob": [
+        9e-05,
+        0.000134,
+        0.000179,
+        0.000271,
+        0.000752,
+        0.002372,
+        0.004346,
+        0.007535,
+        0.010381,
+        0.066348
+      ],
+      "empirical_default_rate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.000581,
+        0.002904,
+        0.002904,
+        0.006969,
+        0.009292,
+        0.067944
+      ]
+    },
+    "isotonic": {
+      "mean_predicted_prob": [
+        0.0,
+        0.001583,
+        0.002273,
+        0.004446,
+        0.007335,
+        0.009392,
+        0.091101
+      ],
+      "empirical_default_rate": [
+        0.0,
+        0.004219,
+        0.002765,
+        0.002426,
+        0.00892,
+        0.007349,
+        0.088441
+      ]
+    }
+  },
+  "profit_optimization": {
+    "best_model_name": "catboost",
+    "calibration_variant": "platt",
+    "tau_theory": 0.107143,
+    "optimal_point": {
+      "threshold": 0.07,
+      "approval_rate": 0.985482,
+      "n_approved": 16970,
+      "approved_bad_rate": 0.004184,
+      "expected_profit_per_applicant": 170.4599,
+      "total_portfolio_profit": 2935320.0
+    },
+    "theory_point": {
+      "threshold": 0.107143,
+      "approval_rate": 0.989837,
+      "n_approved": 17045,
+      "approved_bad_rate": 0.005045,
+      "expected_profit_per_applicant": 169.7805,
+      "total_portfolio_profit": 2923620.0
+    },
+    "approve_all_point": {
+      "threshold": 1.0,
+      "approval_rate": 1.0,
+      "n_approved": 17220,
+      "approved_bad_rate": 0.009059,
+      "expected_profit_per_applicant": 164.7805,
+      "total_portfolio_profit": 2837520.0
+    },
+    "tau_050_point": {
+      "threshold": 0.5,
+      "approval_rate": 0.996283,
+      "n_approved": 17156,
+      "approved_bad_rate": 0.006062,
+      "expected_profit_per_applicant": 169.1847,
+      "total_portfolio_profit": 2913360.0
+    },
+    "sensitivity_grid": [
+      {
+        "margin_good": 120.0,
+        "lgd": 0.6,
+        "tau_theory": 0.090909,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 112.8223,
+        "profit_lift_vs_approve_all": 4.7805
+      },
+      {
+        "margin_good": 120.0,
+        "lgd": 0.7,
+        "tau_theory": 0.078947,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 112.0209,
+        "profit_lift_vs_approve_all": 5.7909
+      },
+      {
+        "margin_good": 120.0,
+        "lgd": 0.75,
+        "tau_theory": 0.074074,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 111.6202,
+        "profit_lift_vs_approve_all": 6.2962
+      },
+      {
+        "margin_good": 120.0,
+        "lgd": 0.85,
+        "tau_theory": 0.065934,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 110.8188,
+        "profit_lift_vs_approve_all": 7.3066
+      },
+      {
+        "margin_good": 150.0,
+        "lgd": 0.6,
+        "tau_theory": 0.111111,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 142.2561,
+        "profit_lift_vs_approve_all": 4.4861
+      },
+      {
+        "margin_good": 150.0,
+        "lgd": 0.7,
+        "tau_theory": 0.096774,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 141.4315,
+        "profit_lift_vs_approve_all": 5.4733
+      },
+      {
+        "margin_good": 150.0,
+        "lgd": 0.75,
+        "tau_theory": 0.090909,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 141.0279,
+        "profit_lift_vs_approve_all": 5.9756
+      },
+      {
+        "margin_good": 150.0,
+        "lgd": 0.85,
+        "tau_theory": 0.081081,
+        "tau_optimal": 0.062,
+        "approval_rate_optimal": 0.984262,
+        "expected_profit_optimal": 140.2265,
+        "profit_lift_vs_approve_all": 6.9861
+      },
+      {
+        "margin_good": 180.0,
+        "lgd": 0.6,
+        "tau_theory": 0.130435,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 171.6969,
+        "profit_lift_vs_approve_all": 4.1986
+      },
+      {
+        "margin_good": 180.0,
+        "lgd": 0.7,
+        "tau_theory": 0.113924,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 170.8722,
+        "profit_lift_vs_approve_all": 5.1858
+      },
+      {
+        "margin_good": 180.0,
+        "lgd": 0.75,
+        "tau_theory": 0.107143,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 170.4599,
+        "profit_lift_vs_approve_all": 5.6794
+      },
+      {
+        "margin_good": 180.0,
+        "lgd": 0.85,
+        "tau_theory": 0.095745,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 169.6353,
+        "profit_lift_vs_approve_all": 6.6667
+      },
+      {
+        "margin_good": 220.0,
+        "lgd": 0.6,
+        "tau_theory": 0.15493,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 210.9512,
+        "profit_lift_vs_approve_all": 3.8153
+      },
+      {
+        "margin_good": 220.0,
+        "lgd": 0.7,
+        "tau_theory": 0.135802,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 210.1266,
+        "profit_lift_vs_approve_all": 4.8026
+      },
+      {
+        "margin_good": 220.0,
+        "lgd": 0.75,
+        "tau_theory": 0.127907,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 209.7143,
+        "profit_lift_vs_approve_all": 5.2962
+      },
+      {
+        "margin_good": 220.0,
+        "lgd": 0.85,
+        "tau_theory": 0.114583,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 208.8897,
+        "profit_lift_vs_approve_all": 6.2834
+      },
+      {
+        "margin_good": 260.0,
+        "lgd": 0.6,
+        "tau_theory": 0.178082,
+        "tau_optimal": 0.31,
+        "approval_rate_optimal": 0.99547,
+        "expected_profit_optimal": 250.3438,
+        "profit_lift_vs_approve_all": 3.5703
+      },
+      {
+        "margin_good": 260.0,
+        "lgd": 0.7,
+        "tau_theory": 0.156627,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 249.381,
+        "profit_lift_vs_approve_all": 4.4193
+      },
+      {
+        "margin_good": 260.0,
+        "lgd": 0.75,
+        "tau_theory": 0.147727,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 248.9686,
+        "profit_lift_vs_approve_all": 4.9129
+      },
+      {
+        "margin_good": 260.0,
+        "lgd": 0.85,
+        "tau_theory": 0.132653,
+        "tau_optimal": 0.07,
+        "approval_rate_optimal": 0.985482,
+        "expected_profit_optimal": 248.144,
+        "profit_lift_vs_approve_all": 5.9001
+      }
+    ]
+  },
+  "feature_drivers": [
+    {
+      "feature": "obs_dpd30_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 37.85
+    },
+    {
+      "feature": "obs_paid_off_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 12.17
+    },
+    {
+      "feature": "obs_dpd60_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 11.71
+    },
+    {
+      "feature": "obs_recent_6m_dpd_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 6.52
+    },
+    {
+      "feature": "employment_years",
+      "feature_family": "Demographic",
+      "gain_share_pct": 4.93
+    },
+    {
+      "feature": "age_years",
+      "feature_family": "Demographic",
+      "gain_share_pct": 3.7
+    },
+    {
+      "feature": "income_per_family_member",
+      "feature_family": "Demographic",
+      "gain_share_pct": 3.48
+    },
+    {
+      "feature": "obs_dpd30_count",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 3.07
+    },
+    {
+      "feature": "obs_dpd_trend",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 3.0
+    },
+    {
+      "feature": "obs_months_count",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 2.41
+    },
+    {
+      "feature": "AMT_INCOME_TOTAL",
+      "feature_family": "Demographic",
+      "gain_share_pct": 2.04
+    },
+    {
+      "feature": "obs_dpd_any_count",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 1.46
+    },
+    {
+      "feature": "obs_dpd60_count",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 0.84
+    },
+    {
+      "feature": "obs_dpd_any_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 0.84
+    },
+    {
+      "feature": "obs_no_loan_ratio",
+      "feature_family": "Behavioral (<= T_obs)",
+      "gain_share_pct": 0.79
+    }
+  ],
+  "hyperparameters": [
+    {
+      "model": "logistic_regression",
+      "family": "Linear / GLM",
+      "hyperparameters": "C=0.5, max_iter=1000, StandardScaler + Median Imputer",
+      "calibration": "3-fold inner StratifiedGroupKFold Platt & Isotonic",
+      "role": "Interpretable linear scorecard baseline"
+    },
+    {
+      "model": "lightgbm",
+      "family": "Histogram GBDT",
+      "hyperparameters": "n_estimators=300, lr=0.04, num_leaves=15, max_depth=4, min_child_samples=50, reg_lambda=5.0",
+      "calibration": "3-fold inner StratifiedGroupKFold Platt & Isotonic",
+      "role": "Primary non-linear behavioral risk scorer"
+    },
+    {
+      "model": "xgboost",
+      "family": "Exact/Hist GBDT",
+      "hyperparameters": "n_estimators=300, lr=0.04, max_depth=4, min_child_weight=20.0, reg_lambda=5.0, hist",
+      "calibration": "3-fold inner StratifiedGroupKFold Platt & Isotonic",
+      "role": "Cross-library gradient boosting benchmark"
+    },
+    {
+      "model": "catboost",
+      "family": "Symmetric Oblivious Trees",
+      "hyperparameters": "iterations=400, lr=0.04, depth=4, l2_leaf_reg=8.0, allow_writing_files=False",
+      "calibration": "3-fold inner StratifiedGroupKFold Platt & Isotonic",
+      "role": "Regularized symmetric-tree benchmark"
+    }
+  ],
+  "figure_filenames": [
+    "ccarp_temporal_window_leakage.png",
+    "ccarp_roc_pr_calibration.png",
+    "ccarp_expected_profit_curve.png",
+    "ccarp_feature_risk_drivers.png"
+  ]
+}
